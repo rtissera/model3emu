@@ -72,6 +72,7 @@
 #ifdef SUPERMODEL_WIN32
 #include "DirectInputSystem.h"
 #include "WinOutputs.h"
+#include "NetOutputs.h"
 #endif
 
 #include <iostream>
@@ -1371,6 +1372,7 @@ static Util::Config::Node DefaultConfig()
   // CSoundBoard
   config.Set("EmulateSound", true);
   config.Set("Balance", false);
+  config.Set("SoundFreq", 57.6); // 60.0?
   // CDSB
   config.Set("EmulateDSB", true);
   config.Set("SoundVolume", "100");
@@ -1412,6 +1414,9 @@ static Util::Config::Node DefaultConfig()
   config.Set("InputSystem", "sdl");
 #endif
   config.Set("Outputs", "none");
+  config.Set("NetOutputsWithLF", "1");
+  config.Set("NetOutputsTCPPort", "8000");
+  config.Set("NetOutputsUDPBroadcastPort", "8001");
   return config;
 }
 
@@ -1533,6 +1538,7 @@ static ParsedCommandLine ParseCommandLine(int argc, char **argv)
     { "-sound-volume",          "SoundVolume"             },
     { "-music-volume",          "MusicVolume"             },
     { "-balance",               "Balance"                 },
+    { "-soundfreq",             "SoundFreq"               },
     { "-input-system",          "InputSystem"             },
     { "-outputs",               "Outputs"                 }
   };
@@ -1839,6 +1845,15 @@ int main(int argc, char **argv)
       Outputs = NULL;
     else if (outputs == "win")
       Outputs = new CWinOutputs();
+    else if (outputs == "net") 
+    {
+        CNetOutputs* netOutputs = new CNetOutputs();
+        if (s_runtime_config["NetOutputsWithLF"].ValueAs<int>()==1)
+            netOutputs->FrameEnding = std::string("\r\n");
+        netOutputs->TcpPort = s_runtime_config["NetOutputsTCPPort"].ValueAs<int>();
+        netOutputs->UdpBroadcastPort = s_runtime_config["NetOutputsUDPBroadcastPort"].ValueAs<int>();
+        Outputs = (COutputs*)netOutputs;
+    }
     else
     {
       ErrorLog("Unknown outputs: %s\n", outputs.c_str());
