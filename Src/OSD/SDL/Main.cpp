@@ -206,6 +206,11 @@ static bool CreateGLScreen(const std::string &caption, bool focusWindow, unsigne
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE,8);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,1);
   
+  // Request GLES 3.0 context
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0); // or 1
+  
   // Set video mode
   s_window = SDL_CreateWindow(caption.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, *xResPtr, *yResPtr, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | (fullScreen ? SDL_WINDOW_FULLSCREEN : 0));
   if (nullptr == s_window)
