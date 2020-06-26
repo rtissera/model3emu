@@ -2,7 +2,7 @@
 #define _TEXTURE_H_
 
 #include "Types.h"
-#include "Pkgs/glew.h"	//arg
+#include <SDL2/SDL_opengles2.h>
 
 namespace New3D {
   

@@ -28,8 +28,8 @@
 #ifndef INCLUDED_SHADER_H
 #define INCLUDED_SHADER_H
 
-#include "Pkgs/glew.h"
 #include <string>
+#include <SDL2/SDL_opengles2.h>
 
 /*
  * LoadShaderProgram(shaderProgramPtr, vertexShaderPtr, fragmentShaderPtr, 

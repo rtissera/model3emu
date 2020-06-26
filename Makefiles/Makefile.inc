@@ -87,13 +87,8 @@ SRC_FILES = \
 	Src/Model3/93C46.cpp \
 	Src/Util/BitRegister.cpp \
 	Src/JTAG.cpp \
-	Src/Graphics/Legacy3D/Error.cpp \
-	Src/Pkgs/glew.cpp \
 	Src/Graphics/Shader.cpp \
 	Src/Model3/Real3D.cpp \
-	Src/Graphics/Legacy3D/Legacy3D.cpp \
-	Src/Graphics/Legacy3D/Models.cpp \
-	Src/Graphics/Legacy3D/TextureRefs.cpp \
 	Src/Graphics/New3D/GLSLShader.cpp \
 	Src/Graphics/New3D/R3DFrameBuffers.cpp \
 	Src/Graphics/New3D/New3D.cpp \
@@ -150,6 +145,11 @@ SRC_FILES = \
 	Src/Pkgs/tinyxml2.cpp \
 	Src/ROMSet.cpp \
 	$(PLATFORM_SRC_FILES)
+
+#	Src/Graphics/Legacy3D/Error.cpp \
+#	Src/Graphics/Legacy3D/Legacy3D.cpp \
+#	Src/Graphics/Legacy3D/Models.cpp \
+#	Src/Graphics/Legacy3D/TextureRefs.cpp \
 
 ifeq ($(strip $(NET_BOARD)),1)
 	SRC_FILES += \
@@ -213,7 +213,7 @@ WARN = -Wall
 CSTD = -std=iso9899:2011
 CXXSTD = -std=c++11
 
-COMMON_CFLAGS = -c $(ARCH) $(OPT) $(WARN) $(addprefix -I,$(sort $(INCLUDE_DIRS))) -DGLEW_STATIC
+COMMON_CFLAGS = -c $(ARCH) $(OPT) $(WARN) $(addprefix -I,$(sort $(INCLUDE_DIRS)))
 
 CFLAGS = $(COMMON_CFLAGS) $(CSTD)
 CXXFLAGS = $(PLATFORM_CFLAGS) $(COMMON_CFLAGS) $(BUILD_CFLAGS) $(CXXSTD)

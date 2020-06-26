@@ -28,7 +28,7 @@
 #ifndef INCLUDED_RENDER2D_H
 #define INCLUDED_RENDER2D_H
 
-#include "Pkgs/glew.h"
+#include <SDL2/SDL_opengles2.h>
 #include "Util/NewConfig.h"
 
 

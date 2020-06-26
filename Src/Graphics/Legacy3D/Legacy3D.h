@@ -29,8 +29,8 @@
 #ifndef INCLUDED_LEGACY3D_H
 #define INCLUDED_LEGACY3D_H
 
+#include <SDL2/SDL_opengles2.h>
 #include "Graphics/IRender3D.h"
-#include "Pkgs/glew.h"
 #include "Util/NewConfig.h"
 
 namespace Legacy3D {

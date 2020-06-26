@@ -1,7 +1,7 @@
 #ifndef _VBO_H_
 #define _VBO_H_
 
-#include "Pkgs/glew.h"
+#include <SDL2/SDL_opengles2.h>
 
 namespace New3D {
 

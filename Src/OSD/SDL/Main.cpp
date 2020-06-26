@@ -56,7 +56,6 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
-#include "Pkgs/glew.h"
 #ifdef SUPERMODEL_OSX
 #include <SDL/SDL.h>
 #else
@@ -233,14 +232,6 @@ static bool CreateGLScreen(const std::string &caption, bool focusWindow, unsigne
   
   // Set the context as the current window context
   SDL_GL_MakeCurrent(s_window, context);
-    
-  // Initialize GLEW, allowing us to use features beyond OpenGL 1.2
-  err = glewInit();
-  if (GLEW_OK != err)
-  {
-    ErrorLog("OpenGL initialization failed: %s\n", glewGetErrorString(err));
-    return FAIL;
-  }
     
   return SetGLGeometry(xOffsetPtr, yOffsetPtr, xResPtr, yResPtr, totalXResPtr, totalYResPtr, keepAspectRatio);
 }
@@ -891,7 +882,7 @@ int Supermodel(const Game &game, ROMSet *rom_set, IEmulator *Model3, CInputs *In
   
   // Initialize the renderers
   CRender2D *Render2D = new CRender2D(s_runtime_config);
-  IRender3D *Render3D = s_runtime_config["New3DEngine"].ValueAs<bool>() ? ((IRender3D *) new New3D::CNew3D(s_runtime_config, Model3->GetGame().name)) : ((IRender3D *) new Legacy3D::CLegacy3D(s_runtime_config));
+  IRender3D *Render3D = ((IRender3D *) new New3D::CNew3D(s_runtime_config, Model3->GetGame().name));
   if (OKAY != Render2D->Init(xOffset, yOffset, xRes, yRes, totalXRes, totalYRes))
     goto QuitError;
   if (OKAY != Render3D->Init(xOffset, yOffset, xRes, yRes, totalXRes, totalYRes))
@@ -1039,7 +1030,7 @@ int Supermodel(const Game &game, ROMSet *rom_set, IEmulator *Model3, CInputs *In
 
       // Recreate renderers and attach to the emulator
       Render2D = new CRender2D(s_runtime_config);
-      Render3D = s_runtime_config["New3DEngine"].ValueAs<bool>() ? ((IRender3D *) new New3D::CNew3D(s_runtime_config, Model3->GetGame().name)) : ((IRender3D *) new Legacy3D::CLegacy3D(s_runtime_config));
+      Render3D = ((IRender3D *) new New3D::CNew3D(s_runtime_config, Model3->GetGame().name));
       if (OKAY != Render2D->Init(xOffset, yOffset, xRes, yRes, totalXRes, totalYRes))
         goto QuitError;
       if (OKAY != Render3D->Init(xOffset, yOffset, xRes, yRes, totalXRes, totalYRes))

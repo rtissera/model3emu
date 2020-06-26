@@ -1,7 +1,6 @@
 #ifndef _R3DSHADER_H_
 #define _R3DSHADER_H_
 
-#include "Pkgs/glew.h"
 #include "Util/NewConfig.h"
 #include "Model.h"
 #include <map>
