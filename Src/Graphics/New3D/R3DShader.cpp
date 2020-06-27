@@ -70,7 +70,7 @@ bool R3DShader::LoadShader(const char* vertexShader, const char* fragmentShader)
 	glCompileShader(m_fragmentShader);
 
 	if (quads) {
-		m_geoShader = glCreateShader(GL_GEOMETRY_SHADER);
+		m_geoShader = glCreateShader(GL_GEOMETRY_SHADER_OES);
 		glShaderSource(m_geoShader, 1, (const GLchar **)&gShader, NULL);
 		glCompileShader(m_geoShader);
 		glAttachShader(m_shaderProgram, m_geoShader);

@@ -6,8 +6,10 @@ namespace New3D {
 
 static const char *vertexShaderFog = R"glsl(
 
+#version 320 es
+
 uniform mat4 mvp;
-attribute vec3 inVertex; 
+in vec3 inVertex; 
 
 void main(void)
 {
@@ -17,6 +19,10 @@ void main(void)
 )glsl";
 
 static const char *fragmentShaderFog = R"glsl(
+
+#version 320 es
+
+precision mediump float;
 
 uniform float	fogAttenuation;
 uniform float	fogAmbient;
@@ -33,6 +39,8 @@ vec3	lSpotFogColor;
 float	lfogAttenuation;
 vec3	lFogColor;
 vec4	scrollFog;
+
+out vec4 out_Color;
 
 void main()
 {
@@ -54,7 +62,7 @@ void main()
 	scrollFog = vec4(lFogColor + lSpotFogColor, fogColour.a);
 
 	// Final Color
-	gl_FragColor = scrollFog;
+	out_Color = scrollFog;
 }
 
 )glsl";

@@ -31,7 +31,7 @@ CNew3D::CNew3D(const Util::Config::Node &config, std::string gameName)
 
 	if (config["QuadRendering"].ValueAs<bool>()) {
 		m_numPolyVerts	= 4;
-		m_primType		= GL_LINES_ADJACENCY;
+		m_primType		= GL_LINES_ADJACENCY_EXT;
 	}
 }
 

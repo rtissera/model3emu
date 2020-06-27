@@ -43,14 +43,6 @@ ifeq ($(strip $(VERBOSE)),1)
 endif
 
 #
-# Enable render state analyser for the legacy 3D engine (will slow down emulation!)
-#
-DEBUG =
-ifneq ($(filter $(strip $(DEBUG)),0 1),$(strip $(DEBUG)))
-	override DEBUG =
-endif
-
-#
 # Enable support for Model3 Net Board emulation
 #
 NET_BOARD =
@@ -145,11 +137,6 @@ SRC_FILES = \
 	Src/Pkgs/tinyxml2.cpp \
 	Src/ROMSet.cpp \
 	$(PLATFORM_SRC_FILES)
-
-#	Src/Graphics/Legacy3D/Error.cpp \
-#	Src/Graphics/Legacy3D/Legacy3D.cpp \
-#	Src/Graphics/Legacy3D/Models.cpp \
-#	Src/Graphics/Legacy3D/TextureRefs.cpp \
 
 ifeq ($(strip $(NET_BOARD)),1)
 	SRC_FILES += \

@@ -127,6 +127,7 @@ bool LoadShaderProgram(GLuint *shaderProgramPtr, GLuint *vertexShaderPtr, GLuint
 	if (!result)	// failed to compile
 	{
 		glGetShaderInfoLog(vertexShader, 2048, &len, infoLog);
+		ErrorLog("Source: %s\n", vsSource);
 		ErrorLog("Vertex shader failed to compile. Your OpenGL driver said:\n%s", infoLog);
 		ret = FAIL;	// error
 	}
@@ -138,6 +139,7 @@ bool LoadShaderProgram(GLuint *shaderProgramPtr, GLuint *vertexShaderPtr, GLuint
 	if (!result)	// failed to compile
 	{
 		glGetShaderInfoLog(fragmentShader, 2048, &len, infoLog);
+		ErrorLog("Source: %s\n", fsSource);
 		ErrorLog("Fragment shader failed to compile. Your OpenGL driver said:\n%s", infoLog);
 		ret = FAIL;	// error
 	}

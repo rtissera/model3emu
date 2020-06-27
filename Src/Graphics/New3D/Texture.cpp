@@ -3,6 +3,8 @@
 #include <math.h>
 #include <algorithm>
 
+#include <GLES3/gl3.h>
+
 namespace New3D {
 
 Texture::Texture()

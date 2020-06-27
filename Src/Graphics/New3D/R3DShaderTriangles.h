@@ -3,7 +3,7 @@
 
 static const char *vertexShaderR3D = R"glsl(
 
-#version 130
+#version 320 es
 
 // uniforms
 uniform float	modelScale;
@@ -61,7 +61,9 @@ void main(void)
 
 static const char *fragmentShaderR3D = R"glsl(
 
-#version 130
+#version 320 es
+
+precision mediump float;
 
 uniform sampler2D tex1;			// base tex
 uniform sampler2D tex2;			// micro tex (optional)

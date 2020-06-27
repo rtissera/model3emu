@@ -116,8 +116,6 @@
 #include "BlockFile.h"
 #include "Graphics/New3D/New3D.h"
 #include "Graphics/Render2D.h"
-#include "Graphics/Legacy3D/TextureRefs.h"
-#include "Graphics/Legacy3D/Legacy3D.h"
 #include "Graphics/Shader.h"
 #ifdef SUPERMODEL_DEBUGGER
 #include "Debugger/SupermodelDebugger.h"

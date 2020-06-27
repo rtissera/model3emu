@@ -278,6 +278,8 @@
 #include "Supermodel.h"
 #include "Graphics/Shaders2D.h" // fragment and vertex shaders
 
+#include <SDL_render.h>
+#include <GLES3/gl3.h>
 
 /******************************************************************************
  Definitions and Constants
@@ -514,12 +516,42 @@ void CRender2D::DisplaySurface(int surface)
   // Draw the surface
   glActiveTexture(GL_TEXTURE0); // texture unit 0
   glBindTexture(GL_TEXTURE_2D, m_texID[surface]);
+
+#if 0
   glBegin(GL_QUADS);
   glTexCoord2f(0.0f, 0.0f);  glVertex2f(0.0f, 0.0f);
   glTexCoord2f(1.0f, 0.0f);  glVertex2f(1.0f, 0.0f);
   glTexCoord2f(1.0f, 1.0f);  glVertex2f(1.0f, 1.0f);
   glTexCoord2f(0.0f, 1.0f);  glVertex2f(0.0f, 1.0f);
   glEnd();
+#else
+  #define ATTRIB_VERTEX 0
+  #define ATTRIB_TEXTUREPOSITION 1
+
+  static const GLfloat squareVertices[] = {
+       -1.0f, -1.0f,
+        1.0f, -1.0f,
+       -1.0f,  1.0f,
+        1.0f,  1.0f,
+  };
+
+  static const GLfloat textureVertices[] = {
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+  };
+
+  glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, squareVertices);
+  glEnableVertexAttribArray(ATTRIB_VERTEX);
+  glVertexAttribPointer(ATTRIB_TEXTUREPOSITION, 2, GL_FLOAT, 0, 0, textureVertices);
+  glEnableVertexAttribArray(ATTRIB_TEXTUREPOSITION);
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+  glDisableVertexAttribArray(ATTRIB_VERTEX);
+  glDisableVertexAttribArray(ATTRIB_TEXTUREPOSITION);
+  #undef ATTRIB_VERTEX
+  #undef ATTRIB_TEXTUREPOSITION
+#endif
 }
 
 // Set up viewport and OpenGL state for 2D rendering (sets up blending function but disables blending)
@@ -546,11 +578,24 @@ void CRender2D::Setup2D(bool isBottom)
 
   // Set up the viewport and orthogonal projection
   glViewport(m_xOffset - m_correction, m_yOffset + m_correction, m_xPixels, m_yPixels);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glOrtho(0.0, 1.0, 1.0, 0.0, 1.0, -1.0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
+  //glMatrixMode(GL_PROJECTION);
+  //glLoadIdentity();
+
+  //glOrtho(0.0, 1.0, 1.0, 0.0, 1.0, -1.0);
+#if 0 // vs shader equivalent
+uniform mat4 projection;
+uniform mat4 modelview;
+
+attribute vec4 vertex;
+
+void main()
+{
+    gl_Position = projection * (modelview * vertex);
+}
+#endif
+
+  //glMatrixMode(GL_MODELVIEW);
+  //glLoadIdentity();
 }
 
 void CRender2D::BeginFrame(void)

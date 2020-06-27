@@ -138,7 +138,7 @@ static bool SetGLGeometry(unsigned *xOffsetPtr, unsigned *yOffsetPtr, unsigned *
   // OpenGL initialization
   glViewport(0,0,*xResPtr,*yResPtr);
   glClearColor(0.0,0.0,0.0,0.0);
-  glClearDepth(1.0);
+  glClearDepthf(1.0);
   glDepthFunc(GL_LESS);
   glEnable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
@@ -237,7 +237,11 @@ static bool CreateGLScreen(const std::string &caption, bool focusWindow, unsigne
   
   // Set the context as the current window context
   SDL_GL_MakeCurrent(s_window, context);
-    
+  
+  ErrorLog("GL Renderer: %s\n", glGetString(GL_RENDERER));
+  ErrorLog("GL Version: %s\n", glGetString(GL_VERSION));
+  ErrorLog("GLSL Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
   return SetGLGeometry(xOffsetPtr, yOffsetPtr, xResPtr, yResPtr, totalXResPtr, totalYResPtr, keepAspectRatio);
 }
 
@@ -295,18 +299,18 @@ static void PrintGLInfo(bool createScreen, bool infoLog, bool printExtensions)
   str = glGetString(GL_SHADING_LANGUAGE_VERSION);
   if (infoLog)  InfoLog("  Shading Language Version : %s", str);
   else           printf("  Shading Language Version : %s\n", str);
-  glGetIntegerv(GL_MAX_ELEMENTS_VERTICES, &value);
+  /*glGetIntegerv(GL_MAX_ELEMENTS_VERTICES, &value);
   if (infoLog)  InfoLog("  Maximum Vertex Array Size: %d vertices", value);
-  else           printf("  Maximum Vertex Array Size: %d vertices\n", value);
+  else           printf("  Maximum Vertex Array Size: %d vertices\n", value);*/
   glGetIntegerv(GL_MAX_TEXTURE_SIZE, &value);
   if (infoLog)  InfoLog("  Maximum Texture Size     : %d texels", value);
   else           printf("  Maximum Texture Size     : %d texels\n", value);
   glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &value);
   if (infoLog)  InfoLog("  Maximum Vertex Attributes: %d", value);
   else           printf("  Maximum Vertex Attributes: %d\n", value);
-  glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &value);
+/*  glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS, &value);
   if (infoLog)  InfoLog("  Maximum Vertex Uniforms  : %d", value);
-  else           printf("  Maximum Vertex Uniforms  : %d\n", value);
+  else           printf("  Maximum Vertex Uniforms  : %d\n", value);*/
   glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &value);
   if (infoLog)  InfoLog("  Maximum Texture Img Units: %d", value);
   else           printf("  Maximum Texture Img Units: %d\n", value);
@@ -686,6 +690,7 @@ static void GunToViewCoords(float *x, float *y)
 
 static void DrawCrosshair(float x, float y, float r, float g, float b)
 {
+#if 0 // gles todo
   float base = 0.01f, height = 0.02f; // geometric parameters of each triangle
   float dist = 0.004f;          // distance of triangle tip from center
   float a = (float)xRes/(float)yRes;  // aspect ratio (to square the crosshair)
@@ -703,6 +708,7 @@ static void DrawCrosshair(float x, float y, float r, float g, float b)
   glVertex2f(x+dist, y);  // right triangle
   glVertex2f(x+dist+height, y-(base/2.0f)*a);
   glVertex2f(x+dist+height, y+(base/2.0f)*a);
+#endif
 }
 
 /*
@@ -726,6 +732,7 @@ static void PrintGLError(GLenum error)
 static void UpdateCrosshairs(uint32_t currentInputs, CInputs *Inputs, unsigned crosshairs)
 
 {
+#if 0 // gles todo
   bool offscreenTrigger[2];
   float x[2], y[2];
 
@@ -782,6 +789,7 @@ static void UpdateCrosshairs(uint32_t currentInputs, CInputs *Inputs, unsigned c
   glEnd();
 
   //PrintGLError(glGetError());
+#endif
 }
 
   

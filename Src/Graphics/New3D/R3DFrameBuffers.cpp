@@ -1,6 +1,8 @@
 #include "R3DFrameBuffers.h"
 #include "Mat4.h"
 
+#include <GLES3/gl3.h>
+
 #define countof(a) (sizeof(a)/sizeof(*(a)))
 
 namespace New3D {
@@ -62,7 +64,7 @@ bool R3DFrameBuffers::CreateFBO(int width, int height)
 	// depth/stencil attachment
 	glGenRenderbuffers(1, &m_renderBufferID);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_renderBufferID);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, width, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferID);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferID);
 
@@ -83,7 +85,7 @@ bool R3DFrameBuffers::CreateFBODepthCopy(int width, int height)
 
 	glGenRenderbuffers(1, &m_renderBufferIDCopy);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_renderBufferIDCopy);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, width, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferIDCopy);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBufferIDCopy);
 
@@ -189,7 +191,9 @@ void R3DFrameBuffers::SetFBO(Layer layer)
 	case Layer::none:
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glDrawBuffer(GL_BACK);
+		//glDrawBuffer(GL_BACK);
+                GLenum buffers[] = { GL_BACK };
+                glDrawBuffers(countof(buffers), buffers);
 		break;
 	}
 	}
